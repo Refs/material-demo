@@ -1,0 +1,11 @@
+.app-wrap {
+  display: flex;
+  // the body'height = nav's height + app-wrap's height + footer's height so the app-wrap's height= 100vh - nav(80px) - footer(60px | 0px)
+  height: calc( 100vh - 80px - 0px );
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: wheat;
+}

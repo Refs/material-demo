@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* import the fly theme css */
+@import url(./assets/css/fly-theme.css);
+
+/* import the default fly style as global style */
+@import url(./assets//css/fly-default.css);
+
+/* body{
+  margin-top: 80px;
+} */

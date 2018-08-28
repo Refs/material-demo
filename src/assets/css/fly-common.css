@@ -1,0 +1,214 @@
+html,
+body {
+    height: 100%;
+}
+
+.fly-top {
+    height: 80px;
+    width: 100%;
+}
+
+.fly-main {
+    height: calc(20%);
+}
+
+.fly-main .fly-aside {
+    width: 200px;
+    height: 100%;
+    float: left;
+}
+
+.fly-main .fly-content {
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+
+.fly-main .fly-content.has-aside {
+    width: calc(-100%);
+}
+
+
+.text-left {
+    text-align: left;
+}
+
+.dropdowntree .select,
+.dropdownlist.widget .select {
+    height: 14px;
+    margin: 7px 0;
+    border-color: #ccc;
+    background: url(/deviceplatform/public/deviceplatform/1.0.0/img/icon-drop.png) no-repeat;
+    background-position: center;
+}
+
+.icon-down:before {
+    content: "" !important;
+}
+
+.logo-full {
+    background: #1d5ab5;
+}
+
+.logo-full:before {
+    content: "";
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    background: url(../images/logo.png) no-repeat center #1d5ab5;
+    background-size: 48px 49px;
+    margin-right: 16px;
+    vertical-align: middle;
+    margin-bottom: 11px;
+}
+
+.loading {
+    position: absolute;
+    z-index: 1000;
+    border: 1px solid #cecece;
+    border-radius: 8px;
+    background: #fff;
+    width: 202px;
+    height: 62px;
+    top: 50%;
+    left: 50%;
+    margin: -31px 0 0 -101px;
+}
+
+.loading:before {
+    width: 20px;
+    height: 20px;
+    content: '';
+    background: url(/deviceplatform/public/deviceplatform/1.0.0/img/loading.png) no-repeat;
+    -webkit-animation: circle 1s infinite linear;
+    /*匀速 循环*/
+    -moz-animation: circle 1s infinite linear;
+    /*匀速 循环*/
+    -ms-animation: circle 1s infinite linear;
+    /*匀速 循环*/
+    margin: 20px 14px 0 58px;
+    display: inline-block;
+    vertical-align: sub;
+}
+
+.loading:after {
+    display: inline-block;
+    content: '数据加载中';
+    color: #666;
+    font-size: 14px;
+}
+
+@-webkit-keyframes circle {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.header-info {
+    float: right;
+    color: #FFFFFF;
+    line-height: 80px;
+}
+
+.header-info .header-quit {
+    float: right;
+}
+
+.header-info .header-quit i {
+    display: inline-block;
+    height: 12px;
+    width: 10px;
+    background: url("/deviceplatform/public/deviceplatform/1.0.0/img/button-quit.png") no-repeat center;
+    vertical-align: middle;
+}
+
+.header-info .header-quit strong {
+    margin-right: 15px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.header-info .header-user {
+    float: right;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.header-info .header-photo {
+    float: right;
+}
+
+.topnav-list {
+    width: auto !important;
+}
+
+.framework-wrap .header-nav {
+    float: left;
+    width: auto !important;
+}
+
+.topnav-more {
+    display: none;
+}
+
+.datepicker .icon-calendar {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background: url(/deviceplatform/public/deviceplatform/1.0.0/img/calendar.png);
+}
+
+.datepicker .icon:before {
+    content: '';
+}
+
+input[type="radio"] {
+    position: relative;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+input[type="radio"]:after {
+    position: absolute;
+    top: -4px;
+    left: 0px;
+    z-index: 0;
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border: 1px solid #cdcdcd;
+    border-radius: 50%;
+}
+
+input[type="radio"]:checked:after {
+    width: 16px;
+    height: 16px;
+    background: url(/deviceplatform/public/deviceplatform/1.0.0/img/radio-selected.png) no-repeat #ffffff center center;
+}
+
+/* 表格分页样式调整*/
+
+.table-content .pagination {
+    padding: 6px 0;
+}
+
+.pagination .number .btn {
+    padding: 3px 5px;
+}
+
+.pagination .number .btn-primary {
+    height: 26px;
+    line-height: 22px;
+    padding: 0px 7px;
+}
+
+.pagination .switch .input {
+    height: 26px;
+    line-height: 26px;
+}

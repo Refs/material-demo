@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'device-manage' },
+  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
-    path: 'device-manage',
-    loadChildren: '../ar-devmanage/ar-devmanage.module#ArDevmanageModule',
+    path: 'dashboard',
+    loadChildren: '../ar-dashboard/ar-dashboard.module#ArDashboardModule',
   },
   {
-    path: 'performance-monitor',
-    loadChildren: '../ar-permonitor/ar-permonitor.module#ArPermonitorModule',
-  }
+    path: 'maps',
+    loadChildren: '../ar-maps/ar-maps.module#ArMapsModule',
+  },
 ];
 
 @NgModule({

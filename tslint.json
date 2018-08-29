@@ -3,6 +3,7 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    "disable-next-line":"member-ordering",
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,

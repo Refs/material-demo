@@ -4,7 +4,9 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   //"webRoot": "${workspaceFolder}/${workspaceFolderBasename}",
   "version": "0.2.0",
-  "configurations": [{
+  "configurations": [
+
+    {
       "type": "chrome",
       "request": "attach",
       "name": "Attach to Chrome",
@@ -16,7 +18,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome",
-      "url": "http://localhost:4300",
+      "url": "http://localhost:4400",
       "webRoot": "${workspaceFolder}",
       "sourceMaps": true,
       "skipFiles": [

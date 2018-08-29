@@ -1,10 +1,36 @@
+<mat-toolbar>
+  <div class="logo">
+    <a routerLink="/" >
+      <!-- <img class="expanded" src="./assets/img/logo-full.svg" style="max-height:40px;" alt="Alain"> -->
+      <img class="collapsed" src="./assets/img/logo.svg" style="max-height:30px;" alt="Alain">
+    </a>
+  </div>
 
+  <button style="color: white" mat-icon-button (click)="sideNav.toggle()">
+    <mat-icon >{{ sideNav.opened ? 'close' : 'menu' }}</mat-icon>
+  </button>
 
-<app-nav ></app-nav>
+</mat-toolbar>
 
-<div class="app-wrap">
-    <app-sidenav ></app-sidenav>
+<mat-sidenav-container>
+  <mat-sidenav #sideNav mode="push" opened="true"  >
+      <mat-expansion-panel  [expanded]="panel.routerFlag == currentModuleRouter" *ngFor="let panel of sideNavData">
+          <mat-expansion-panel-header [expandedHeight]="'35px'" [collapsedHeight]=" '35px' " >
+            <mat-panel-title>
+                <mat-icon style="color: gray">{{panel.header.icon}}</mat-icon>
+            </mat-panel-title>
+            <mat-panel-description>
+                {{panel.header.description}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <mat-list >
+            <mat-list-item *ngFor="let list of panel.lists"  routerLinkActive="active"  [routerLink]="[list.link]" >{{list.linkTitle}}</mat-list-item>
+          </mat-list>
+      </mat-expansion-panel>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
     <router-outlet></router-outlet>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-<!-- <p>{{pizza$ | async}}</p> -->

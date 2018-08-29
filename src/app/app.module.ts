@@ -32,6 +32,9 @@ import * as fromComponents from './components';
 import * as fromServices from './services';
 // import pipes
 
+// import directives
+import * as fromDirectives from './directives';
+
 // import appModule reducers
 import { reducers, CustomSerializer, effects, RootState } from './store';
 
@@ -42,6 +45,7 @@ export const metaReducers: MetaReducer<RootState>[] = !environment.production ? 
   declarations: [
     ...fromContainers.containers,
     ...fromComponents.components,
+    ...fromDirectives.directives
   ],
   imports: [
     BrowserModule,

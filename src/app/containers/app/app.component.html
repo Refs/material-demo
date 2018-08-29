@@ -5,7 +5,6 @@
       <img class="collapsed" src="./assets/img/logo.svg" style="max-height:30px;" alt="Alain">
     </a>
   </div>
-
   <button style="color: white" mat-icon-button (click)="sideNav.toggle()">
     <mat-icon >{{ sideNav.opened ? 'close' : 'menu' }}</mat-icon>
   </button>
@@ -13,7 +12,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sideNav mode="push" opened="true"  >
+  <mat-sidenav #sideNav mode="side" opened="true"  >
       <mat-expansion-panel  [expanded]="panel.routerFlag == currentModuleRouter" *ngFor="let panel of sideNavData">
           <mat-expansion-panel-header [expandedHeight]="'35px'" [collapsedHeight]=" '35px' " >
             <mat-panel-title>

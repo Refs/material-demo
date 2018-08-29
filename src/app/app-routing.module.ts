@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'maps',
     loadChildren: '../ar-maps/ar-maps.module#ArMapsModule',
   },
+  {
+    path: 'charts',
+    loadChildren: '../ar-charts/ar-charts.module#ArChartsModule',
+  },
 ];
 
 @NgModule({

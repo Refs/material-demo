@@ -48,6 +48,16 @@ export class AppComponent implements OnInit {
         {link: '/maps/baidu', linkTitle: 'baidu' },
         {link: '/maps/minemap', linkTitle: 'minemap' },
       ]
+    },
+    {
+      routerFlag: 'charts',
+      header : {
+        icon: 'pie_chart',
+        description: 'charts',
+      },
+      lists: [
+        {link: '/charts/echarts', linkTitle: 'echarts' },
+      ]
     }
   ];
 

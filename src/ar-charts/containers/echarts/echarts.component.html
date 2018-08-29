@@ -1,0 +1,35 @@
+<perfect-scrollbar style="width: 100%; max-height: calc( 100vh - 64px );" [config]="">
+
+
+  <mat-grid-list #grid (window:resize)="onResize($event)" rowHeight="500px" gutterSize="24px">
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-content>
+          <div echarts [options]="chartOption" class="demo-chart"></div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-content>
+          <div echarts [options]="chartOption" class="demo-chart"></div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-content>
+          <div echarts [options]="chartOption" class="demo-chart"></div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card>
+        <mat-card-content>
+          <div echarts [options]="chartOption" class="demo-chart"></div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+</perfect-scrollbar>

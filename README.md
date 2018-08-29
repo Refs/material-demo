@@ -175,8 +175,166 @@ export class ExpansionOverviewExample {}
 3. the data in the model can bind to each other with getter and setter
 4. we bind the setter property of the controller to the expanded
 
-## custom a attribute directive
+## control the Progress bar
+
+we can code a global state variable, and the Progress bar subscribe the state. when we want the Progress bar we dispatch a 'ShowProgressBar' or dispatch a 'HideProgressBar' in the component;
+
+## The material grid list
+
+1. make the mat-grid-list's gutterSize be equal to its margin, then we can get the consistent experience.
+
+```html
+<mat-grid-list cols="1" rowHeight="500px" gutterSize="24px"></mat-grid-list>
+
+```
+```css
+.mat-grid-list {
+  margin: 24px;
+}
+
+.mat-card{
+  align-self: flex-start;
+  width: 100%;
+  height: 100%;
+}
+
+```
+
+2. make the mat-grid-list responsive
+
+> You have to set the cols attribute of the mat-grid-list dynamically depending on the screen width. You'd have to decide on which width breakpoint will the mat-grid-list render the 1-column version.
+
+```html
+<mat-grid-list [cols]="breakpoint" rowHeight="2:0.5" (window:resize)="onResize($event)">
+  <mat-grid-tile>1</mat-grid-tile>
+  <mat-grid-tile>2</mat-grid-tile>
+  <mat-grid-tile>3</mat-grid-tile>
+  <mat-grid-tile>4</mat-grid-tile>
+  <mat-grid-tile>5</mat-grid-tile>
+  <mat-grid-tile>6</mat-grid-tile>
+</mat-grid-list>
+```
+
+```ts
+ngOnInit() {
+    this.breakpoint = (window.innerWidth <= 400) ? 1 : 6;
+}
+
+onResize(event) {
+  this.breakpoint = (event.target.innerWidth <= 400) ? 1 : 6;
+}
+```
+
+3. the window:resize not only add to the window, but also can be added to any element ;
+
+> https://stackoverflow.com/questions/35527456/angular-window-resize-event
+
+```html
+<div (window:resize)="onResize($event)"
+```
+```ts
+onResize(event) {
+  event.target.innerWidth;
+}
+
+// or
+@HostListener('window:resize', ['$event'])
+onResize(event) {
+  event.target.innerWidth;
+}
+```
+
+4. utilize the flex-layout ObservableMedia to achieve the responsive layout
+
+> You can workaround this by manually setting the number of grid columns in your own code. You can do it easily via flex-layout like this:
+
+```ts
+
+@ViewChild('grid')
+private grid: MdGridList;
+
+constructor(private media: ObservableMedia) { }
+
+ngAfterViewInit() {
+  // ObservableMedia does not fire on init so you have to manually update the grid first.
+  this.updateGrid();
+	this.media.subscribe(change => { this.updateGrid(); });
+}
+
+updateGrid(): void {
+	if (this.media.isActive('xl')) { this.grid.cols = 5; }
+	else if (this.media.isActive('lg')) { this.grid.cols = 4; }
+	else if (this.media.isActive('md')) { this.grid.cols = 3; }
+	else if (this.media.isActive('sm')) { this.grid.cols = 2; }
+	else if (this.media.isActive('xs')) { this.grid.cols = 1; }
+}
+
+```
 
 
+## flex-layout
 
+> https://github.com/angular/flex-layout/wiki/NPM-Installs
+
+
+```ts
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+
+@Component({
+  selector: 'app-flex2',
+  templateUrl: './flex2.component.html',
+  styleUrls: ['./flex2.component.css']
+})
+export class Flex2Component implements OnInit, OnDestroy {
+  public content: string;
+  public watcher: Subscription;
+  activeMediaQuery = '';
+  
+  constructor(
+    public media: ObservableMedia
+  ) {
+    this.watcher = media.subscribe((change: MediaChange) => {
+      this.activeMediaQuery = change ? ` '${change.mqAlias}' = (${change.mediaQuery}) ` : ''; 
+      if( change.mgAlias === 'xs' ) {
+        this.loadMobileContent()
+      } else if( change.mgAlias ==== 'lg' ) {
+        this.loadDesktopContent();
+      } else if (change.mgAlias === 'md') {
+        this.loadMediumContent();
+      }
+    })
+  }
+
+  ngOnInit() {}
+
+  isMobile() {
+    return false;
+  }
+
+  invisibleOnDesktop () {
+    return true
+  }
+
+  ngOnDestroy() {
+    this.watcher.unSubscription();
+  }
+
+  loadMobileContent() {
+    this.content = 'MOBILE CONTENT';
+  }
+
+  loadDesktopContent() {
+    this.content = 'DESKTOP CONTENT'
+  }
+
+  loadMediumContent() {
+    this.content = 'MEDIUM CONTENT'
+  }
+
+
+}
+
+```
 

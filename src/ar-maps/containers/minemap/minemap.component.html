@@ -1,3 +1,24 @@
-<p>
-  minemap works!
-</p>
+
+<mat-grid-list cols="1" rowHeight="700px" gutterSize="40px" >
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <img mat-card-avatar src="https://picsum.photos/300/300/?random">
+        <mat-card-title>mineMap</mat-card-title>
+        <mat-card-subtitle>A good map library</mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <div id="map"></div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>actionOne</button>
+        <button mat-button>actionTwo</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+
+<app-script-hack  src="//minedata.cn/minemapapi/v1.3/minemap.js" type="text/javascript"></app-script-hack>

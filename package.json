@@ -35,6 +35,7 @@
     "echarts": "^4.1.0",
     "jquery": "^3.3.1",
     "jquery-modal": "^0.9.1",
+    "ng-pick-datetime": "^5.2.6",
     "ngx-echarts": "^2.3.1",
     "ngx-perfect-scrollbar": "^5.3.5",
     "rxjs": "^5.5.6",

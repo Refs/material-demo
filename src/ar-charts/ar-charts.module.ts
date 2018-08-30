@@ -7,6 +7,8 @@ import { ArChartsRoutingModule } from './ar-charts-routing.module';
 import { ArChartsMaterialModule } from './ar-charts-material.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { FlexModule } from '@angular/flex-layout';
+
 
 
 import * as fromContainer from './containers';
@@ -18,6 +20,7 @@ import * as fromContainer from './containers';
     CommonModule,
     ArChartsRoutingModule,
     ArChartsMaterialModule,
+    FlexModule,
     NgxEchartsModule,
     PerfectScrollbarModule
   ],

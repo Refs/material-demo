@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import * as fromComponents from './components';
+import * as fromServices from './services';
 
 @NgModule({
   imports: [
@@ -18,7 +19,9 @@ export class ArSharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ArSharedModule,
-      providers: []
+      providers: [
+        ...fromServices.services
+      ]
     };
   }
 

@@ -1,7 +1,6 @@
-import { NavComponent } from './nav/nav.component';
-import { SidenavComponent } from './sidenav/sidenav.component';
 
+import { PageHeaderComponent } from './page-header/page-header.component';
 
-export const components: any[] = [NavComponent, SidenavComponent];
+export const components: any[] = [ PageHeaderComponent ];
 
-export * from './nav/nav.component';
+export * from './page-header/page-header.component';

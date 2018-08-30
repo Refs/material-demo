@@ -1,4 +1,9 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+
+
+import * as fromSharedService from '../../../ar-shared/services';
+
 
 @Component({
   selector: 'app-minemap',
@@ -7,17 +12,27 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
 })
 export class MinemapComponent implements OnInit, AfterViewChecked {
 
-  mapInited = false;
+  // private _mapInited = false;
+  private _watcher: Subscription;
+  private _map: any;
 
-  constructor() { }
+
+  constructor(
+    public sidenavClose: fromSharedService.SidenavCloseService
+  ) { }
 
   ngOnInit() {
+    if (( (<any>window).minemap )) {
+      this.initMap();
+    }
+    this._watcher = this.sidenavClose.cast.subscribe((data) => {
+      this.resizeMap();
+    });
   }
 
   ngAfterViewChecked() {
-    if ( (<any>window).minemap && !this.mapInited ) {
-      this.initMap();
-      this.mapInited = true;
+    if (this._map) {
+      this._map.resize();
     }
   }
 
@@ -28,7 +43,7 @@ export class MinemapComponent implements OnInit, AfterViewChecked {
     (<any>window).minemap.serviceUrl = '//minedata.cn/service';
     (<any>window).minemap.accessToken = 'eb782eb5a51d4217a323e2fd2abe7401';
     (<any>window).minemap.solution = 2365;
-    const map = new (<any>window).minemap.Map({
+    this._map = new (<any>window).minemap.Map({
         container: 'map',
         style: '//minedata.cn/service/solu/style/id/2365',
         center: [116.46, 39.92],
@@ -39,4 +54,9 @@ export class MinemapComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  resizeMap() {
+    if (this._map) {
+      this._map.resize();
+    }
+  }
 }

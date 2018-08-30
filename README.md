@@ -1,3 +1,12 @@
+## The specification:
+  1. we should unsubscribe the observable whenever the component destroy; 
+  2. To every private property we should generate getter and setter like spring VO; In the class method we have to use the private property; 
+## the key
+  1. getter and setter in data bind
+  2. subject and service
+  3. state management
+  4. config the ts path `../../../ar-shared/services` ==> `@appRoot/ar-shared/services`
+
 ## mat expansion panel
 
 1. make the panel header configurable 
@@ -125,7 +134,36 @@ export class ExpansionOverviewExample {}
   * look at the source code scss file , then we know how the style that is 
   * then we use the ::ng-deep to set the material component's style  
 
+
+## ::ng-deep versus ViewEncapsulation
+
+> ::ng-deep works great in this case, but it may be deprecated in the future. 
+
+The recommended way is to use `ViewEncapsulation`. In your component add the following encapsulation:
+
+```ts
+import { ViewEncapsulation } from '@angular/core';
+
+@Component({
+    ....
+    encapsulation: ViewEncapsulation.None
+})
+```
+
+Then your css will work and override the styles with your custom styles.
+
+```scss
+.mat-sidenav-backdrop.mat-sidenav-shown{
+    background-color: transparent !important;
+}
+```
+
+
 ## config the default state `mat-sidenav` and `mat-expansion-panel`
+
+### control the sideNav
+
+1. control the opening and closing of the sideNav
 
 ```html
 <mat-sidenav #sideNav mode="push" opened="true"  >
@@ -159,6 +197,17 @@ export class ExpansionOverviewExample {}
 
 ```
 
+### control the overlay of the sidenav
+
+> Because when we use the mat-sidenav in `side` mode. the minemap will raise bug that after the closing of the side nav, the map won't resize. So we have to use the `push` mode. in that mode we have a gray overlay, and there's not @input property of the mat-sidenav we can use to hide the overlay . so we have to control it via css;
+
+```scss
+// to make this style effective, we have to set encapsulation: ViewEncapsulation.none in the @component meta config;
+.mat-sidenav-backdrop.mat-sidenav-shown{
+    background-color: transparent !important;
+}
+```
+
 
 2. the expanded state of the mat-expansion-panel should be based on router state; so we can implement via router state;
 
@@ -170,10 +219,7 @@ export class ExpansionOverviewExample {}
 
 ```
 
-1. we can get the routerLinkActive reference via template variable
-2. then we bind the rla.isActive the model in the controller
-3. the data in the model can bind to each other with getter and setter
-4. we bind the setter property of the controller to the expanded
+
 
 ## control the Progress bar
 
@@ -303,7 +349,7 @@ export class Flex2Component implements OnInit, OnDestroy {
         this.loadDesktopContent();
       } else if (change.mgAlias === 'md') {
         this.loadMediumContent();
-      }
+      } else if ()
     })
   }
 
@@ -332,9 +378,223 @@ export class Flex2Component implements OnInit, OnDestroy {
   loadMediumContent() {
     this.content = 'MEDIUM CONTENT'
   }
-
-
 }
 
 ```
+
+> conclusion
+
+```ts
+export class EchartsComponent implements OnInit, OnDestroy, AfterViewInit {
+
+  @ViewChild('grid') public grid: MatGridList;
+
+  public watcher: Subscription;
+
+  constructor(
+    public media: ObservableMedia
+  ) {
+  }
+
+  ngAfterViewInit() {
+    this.updateContent();
+    this.watcher = this.media
+      .subscribe((change: MediaChange) => {
+        console.log(change.mqAlias);
+        this.updateContent();
+      });
+  }
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
+  }
+
+  updateContent(): void {
+    if (this.media.isActive('xs')) {
+      this.loadXsContent();
+    } else if ( this.media.isActive('sm') ) {
+      this.loadSmContent();
+    } else if ( this.media.isActive('md') ) {
+      this.loadMdContent();
+    } else if ( this.media.isActive('lg') ) {
+      this.loadLgContent();
+    } else if ( this.media.isActive('xl') ) {
+      this.loadXlContent();
+    }
+  }
+  loadLgContent() {
+    this.grid.cols = 3;
+  }
+  loadXlContent() {
+    this.grid.cols = 3;
+  }
+  loadMdContent() {
+    this.grid.cols = 2;
+  }
+  loadSmContent() {
+    this.grid.cols = 1;
+  }
+  loadXsContent() {
+    this.grid.cols = 1;
+  }
+}
+
+// When we encounter `ExpressionChangedAfterItHasBeenCheckedError` we should code like below
+ngAfterViewInit() {
+  setTimeout(() => {
+    this.updateContent();
+  });
+  this.watcher = this.media
+    .subscribe((change: MediaChange) => {
+      console.log(change.mqAlias);
+      setTimeout(() => {
+        this.updateContent();
+      }) ;
+    });
+}
+
+```
+
+> 这些 loadLgContent, loadXlContent 都是 人为封装的， 类似于 ngOnInit() ngAfterViewInit() 都是控制组件在不同时期表现形式的接口； 自己封装的这些都是 控制接口而已；
+
+> 自响应的方式 有两个，一个是 window:resize 本例中 用于控制 sideNav ， 一个是上述的接口； 
+
+## scrollBar
+
+1. To add the scrollBar to the app.component.html, Then wrap all the elements and component via `<perfect-scrollbar>`.
+  * In this situation we have to fix the the header, so it won't fly when we scroll;
+2. To add the scrollBar outside of `<router-outlet></router-outlet>` so we can control all the children pages;
+3. To add the scrollBar outside of a wrap elements or component like `<mat-sidenav></mat-sidenav>` 
+
+> This way is very good;
+```ts
+<perfect-scrollbar style="width: 100%; max-height: calc( 100vh - 64px );" [config]="">
+  <router-outlet></router-outlet>
+</perfect-scrollbar>
+
+```
+
+```ts
+<mat-sidenav #sideNav mode="side" opened="true">
+  <perfect-scrollbar style="width: 100%; max-height: calc( 100vh - 64px );" [config]="">
+    <mat-expansion-panel [expanded]="panel.routerFlag == currentModuleRouter" *ngFor="let panel of sideNavData">
+      <mat-expansion-panel-header [expandedHeight]="'35px'" [collapsedHeight]=" '35px' ">
+        <mat-panel-title>
+          <mat-icon style="color: gray">{{panel.header.icon}}</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panel.header.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <mat-list-item *ngFor="let list of panel.lists" routerLinkActive="active" [routerLink]="[list.link]">{{list.linkTitle}}</mat-list-item>
+      </mat-list>
+    </mat-expansion-panel>
+  </perfect-scrollbar>
+</mat-sidenav>
+```
+
+> if we want to add the scrollBar to the global, the app.component.html should :
+
+```html
+<router-outlet></router-outlet>
+
+<!-- then we add the perfect-scrollbar outside of the router-outlet -->
+```
+
+
+
+
+
+## progressBar versus minemap resize && notification service; 
+
+> We can create  a notification service , in the service we set up an Subject. in the component we instantiate the service , and invoke it's method to dispatch a notification.  
+
+* When the sideNav close we dispatch a notification to notice the minemap resize;
+
+* When the loading is complete we dispatch a notification to notice the process bar hide;
+
+1. we can solve the minemap bug when the sidenav close. in the AfterViewChecked life circle; instead of using the subject service; 
+
+```ts
+ngAfterViewChecked() {
+  this._map.resize();
+}
+
+resizeMap() {
+  this._map.resize();
+}
+
+```
+
+
+### subject 
+
+1. Subjects can basically be used to push new changes to an observable and then they can also be used as an observer to subscribe to new changes . 
+
+Subject can act as a bridge/proxy between the source Observable and many observers , making it possible for multiple observers to share the same Observable execution.
+
+Subject can be used for sharing data between components.
+
+
+```ts
+// in the service
+
+@Injectable()
+export class UserService {
+  // we should decorate the property be private, and give it a getter and setter method. this is the specification of  the `Object orientation` 
+  // to achieve this we can use the `getter and setter plugin to do this`
+  private _prop: string = foo;
+
+ // this._prop is the default value; notice the asObservable() method;
+  private _propChanged: BehaviorSubject<string> = new BehaviorSubject<string>(this._prop)
+  public cast =  this.propChanged.asObservable();
+
+  getProp(): string {
+    return this._prop;
+  }
+  setProp(prop: string) :void {
+    this._prop = prop;
+    // to push a new value to an observable , we should use the `next()`
+    this._propChanged.next(this._prop); 
+  }
+ 
+}
+
+```
+
+```ts
+// in the component
+@Component()
+export class OneComponent implements OnInit, OnDestroy {
+  public prop: string;
+  private _subscription: Subscription;
+
+  constructor( private userService: UserService ) {}
+
+  ngOnInit() {
+    // subscribe the new values
+    this._subscription = this.userService.cast.subscribe((prop) => {
+      this.prop = prop;
+    });
+  }
+
+  changeProp() {
+    // push the new values
+    this.userService.setProp('bar');
+  }
+
+  // we should keep in mind that we should unsubscribe to observables whenever the component id going to be destroy;
+  ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+}
+
+
+```
+
+### angular OnReady event which we have saw in the ionic
 

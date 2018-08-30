@@ -1,30 +1,30 @@
-import { Component , OnInit, ViewChild, ComponentRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component , OnInit, ViewChild, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { MatSidenav } from '@angular/material';
+
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+
 
 import { Store, select } from '@ngrx/store';
 
 import * as fromStore from '../../store';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild('sideNav') sideNav: MatSidenav;
 
-  @HostListener('window:resize', ['$event'])
-  onresize(event) {
-    this.configureSideNav();
-  }
-  // tslint:disable-next-line:member-ordering
-  smallScreen: boolean;
-  // tslint:disable-next-line:member-ordering
-  currentModuleRouter: string;
-  // tslint:disable-next-line:member-ordering
-  sideNavData = [
+  public watcher: Subscription;
+
+  public currentModuleRouter: string;
+
+  public sideNavData = [
     {
       routerFlag: 'dashboard',
       header : {
@@ -62,7 +62,8 @@ export class AppComponent implements OnInit {
   ];
 
   constructor(
-    private store: Store<fromStore.RootState>
+    private store: Store<fromStore.RootState>,
+    private media: ObservableMedia
   ) {}
 
   ngOnInit () {
@@ -72,16 +73,51 @@ export class AppComponent implements OnInit {
       this.currentModuleRouter = data;
     });
   }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.updateContent();
+    });
+    this.watcher = this.media
+      .subscribe((change: MediaChange) => {
+        console.log(change.mqAlias);
+        setTimeout(() => {
+          this.updateContent();
+        }) ;
+      });
+  }
 
-  configureSideNav() {
-    this.smallScreen = window.innerWidth < 700 ? true : false;
-    if (!this.smallScreen) {
-      this.sideNav.mode = 'side';
-      this.sideNav.opened = true;
-    } else {
-      this.sideNav.mode = 'over';
-      this.sideNav.opened = false;
+  updateContent(): void {
+    if (this.media.isActive('xs')) {
+      this.loadXsContent();
+    } else if ( this.media.isActive('sm') ) {
+      this.loadSmContent();
+    } else if ( this.media.isActive('md') ) {
+      this.loadMdContent();
+    } else if ( this.media.isActive('lg') ) {
+      this.loadLgContent();
+    } else if ( this.media.isActive('xl') ) {
+      this.loadXlContent();
     }
+  }
+  loadLgContent() {
+    this.sideNav.mode = 'side';
+    this.sideNav.opened = true;
+  }
+  loadXlContent() {
+    this.sideNav.mode = 'side';
+    this.sideNav.opened = true;
+  }
+  loadMdContent() {
+    this.sideNav.mode = 'side';
+    this.sideNav.opened = true;
+  }
+  loadSmContent() {
+    this.sideNav.mode = 'over';
+    this.sideNav.opened = false;
+  }
+  loadXsContent() {
+    this.sideNav.mode = 'over';
+    this.sideNav.opened = false;
   }
 
 }

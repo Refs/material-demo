@@ -11,4 +11,13 @@ export const getRouterModuleLink = createSelector(
   }
 )
 
+export const getRouterPageLink = createSelector(
+  fromReducers.getRouterState,
+  (router) => {
+    if(router) {
+      return router.state.url.split('/')[2];
+    }
+  }
+)
+
 

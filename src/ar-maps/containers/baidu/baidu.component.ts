@@ -11,9 +11,7 @@ export class BaiduComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if ( (<any>window).BMap) {
       this.initMap();
-    }
   }
 
 

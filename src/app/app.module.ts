@@ -5,6 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
+import { ArSharedModule } from '../ar-shared/ar-shared.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+
 
 // import storeModule
 import { StoreModule, MetaReducer, ReducerObservable } from '@ngrx/store';
@@ -14,6 +18,8 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 // import effects module
 import { EffectsModule } from '@ngrx/effects';
+
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 
 
@@ -53,6 +59,8 @@ export const metaReducers: MetaReducer<RootState>[] = !environment.production ? 
     HttpClientModule,
     AppMaterialModule,
     AppRoutingModule,
+    ArSharedModule.forRoot(),
+    FlexLayoutModule,
 
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule.forRoot({
@@ -60,6 +68,8 @@ export const metaReducers: MetaReducer<RootState>[] = !environment.production ? 
     }),
     EffectsModule.forRoot(effects),
     environment.production ? [] : StoreDevtoolsModule.instrument(),
+
+    PerfectScrollbarModule,
   ],
   providers: [
     ...fromServices.services,

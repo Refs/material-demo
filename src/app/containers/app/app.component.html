@@ -1,35 +1,46 @@
-<mat-toolbar>
-  <div class="logo">
-    <a routerLink="/" >
-      <!-- <img class="expanded" src="./assets/img/logo-full.svg" style="max-height:40px;" alt="Alain"> -->
-      <img class="collapsed" src="./assets/img/logo.svg" style="max-height:30px;" alt="Alain">
-    </a>
-  </div>
-  <button style="color: white" mat-icon-button (click)="sideNav.toggle()">
-    <mat-icon >{{ sideNav.opened ? 'close' : 'menu' }}</mat-icon>
-  </button>
 
-</mat-toolbar>
+<header>
+  <mat-toolbar>
+    <div class="logo" >
+      <a routerLink="/">
+        <img class="collapsed" src="./assets/img/logo.png" style="max-height:40px;" alt="Alain">
+      </a>
+    </div>
+    <button style="color: white" mat-icon-button (click)="sideNav.toggle()">
+      <mat-icon>
+        {{ sideNav.opened ? 'close' : 'menu' }}
+      </mat-icon>
 
-<mat-sidenav-container>
-  <mat-sidenav #sideNav mode="side" opened="true"  >
-      <mat-expansion-panel  [expanded]="panel.routerFlag == currentModuleRouter" *ngFor="let panel of sideNavData">
-          <mat-expansion-panel-header [expandedHeight]="'35px'" [collapsedHeight]=" '35px' " >
-            <mat-panel-title>
-                <mat-icon style="color: gray">{{panel.header.icon}}</mat-icon>
-            </mat-panel-title>
-            <mat-panel-description>
-                {{panel.header.description}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <mat-list >
-            <mat-list-item *ngFor="let list of panel.lists"  routerLinkActive="active"  [routerLink]="[list.link]" >{{list.linkTitle}}</mat-list-item>
-          </mat-list>
-      </mat-expansion-panel>
-  </mat-sidenav>
+    </button>
+  </mat-toolbar>
+</header>
 
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<section>
+    <mat-sidenav-container>
+        <mat-sidenav #sideNav  >
+          <perfect-scrollbar style="width: 100%; max-height: calc( 100vh - 64px );" [config]="">
+            <mat-expansion-panel [expanded]="panel.routerFlag == currentModuleRouter" *ngFor="let panel of sideNavData">
+              <mat-expansion-panel-header [expandedHeight]="'35px'" [collapsedHeight]=" '35px' ">
+                <mat-panel-title>
+                  <mat-icon style="color: gray">{{panel.header.icon}}</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{panel.header.description}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <mat-list>
+                <mat-list-item *ngFor="let list of panel.lists" routerLinkActive="active" [routerLink]="[list.link]">{{list.linkTitle}}</mat-list-item>
+              </mat-list>
+            </mat-expansion-panel>
+          </perfect-scrollbar>
+        </mat-sidenav>
+
+        <mat-sidenav-content>
+          <perfect-scrollbar style="width: 100%; max-height: calc( 100vh - 64px );" [config]="">
+            <app-page-header></app-page-header>
+            <router-outlet></router-outlet>
+          </perfect-scrollbar>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+</section>
 

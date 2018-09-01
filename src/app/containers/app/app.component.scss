@@ -8,6 +8,14 @@ header {
   .mat-toolbar {
     background: linear-gradient(120deg,#412bbe,#b11b77) #2b6ba7;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);
+    // use to relative process bar
+    position: relative;
+    .mat-progress-bar {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      height: 2px;
+    }
   }
   .logo {
     width: 64px !important;
@@ -36,7 +44,7 @@ header {
 
 
 
-section {
+section.content {
   position: absolute;
   top: 63px;
   bottom: 0;
@@ -45,7 +53,7 @@ section {
 }
 // this is because when the media is less than 599px . the toolbar's will change to be 54px;
 @media (max-width: 599px){
-  section {
+  section.content {
     top: 53px;
   }
 }

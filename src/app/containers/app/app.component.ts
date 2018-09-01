@@ -1,4 +1,4 @@
-import { Component , OnInit, ViewChild, HostListener, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component , OnInit, ViewChild, HostListener, ViewEncapsulation, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
@@ -7,7 +7,10 @@ import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Store, select } from '@ngrx/store';
 
 import * as fromStore from '../../store';
+import * as fromShareServices from '../../../ar-shared/services';
+
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -16,11 +19,13 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('sideNav') sideNav: MatSidenav;
 
   public watcher: Subscription;
+
+  public progressBarShow$: Observable<boolean>;
 
   public currentModuleRouter: string;
 
@@ -63,10 +68,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(
     private store: Store<fromStore.RootState>,
-    private media: ObservableMedia
+    private media: ObservableMedia,
+    private progressBarService: fromShareServices.ProcessBarService,
+    private sidenavCloseService: fromShareServices.SidenavCloseService,
   ) {}
 
   ngOnInit () {
+    this.progressBarShow$ = this.progressBarService.processShowCast$;
+    // open the process bar
+    this.progressBarService.processShow = true;
     this.store.pipe(
       select(fromStore.getRouterModuleLink),
     ).subscribe((data) => {
@@ -74,6 +84,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
   ngAfterViewInit() {
+    this.sideNav.onClose.subscribe(() => {
+      this.sidenavCloseService.sidenavAction = 1;
+    });
+    this.sideNav.onOpen.subscribe(() => {
+      this.sidenavCloseService.sidenavAction = 1;
+    });
+    setTimeout(() => {
+      this.progressBarService.processShow = false;
+    }, 2000);
     setTimeout(() => {
       this.updateContent();
     });
@@ -84,6 +103,9 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.updateContent();
         }) ;
       });
+  }
+  ngOnDestroy() {
+    this.watcher.unsubscribe();
   }
 
   updateContent(): void {

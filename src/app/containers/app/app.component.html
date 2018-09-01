@@ -1,6 +1,8 @@
 
 <header>
+
   <mat-toolbar>
+    <mat-progress-bar *ngIf="progressBarShow$ | async" mode="indeterminate"></mat-progress-bar>
     <div class="logo" >
       <a routerLink="/">
         <img class="collapsed" src="./assets/img/logo.png" style="max-height:40px;" alt="Alain">
@@ -10,12 +12,11 @@
       <mat-icon>
         {{ sideNav.opened ? 'close' : 'menu' }}
       </mat-icon>
-
     </button>
   </mat-toolbar>
 </header>
 
-<section>
+<section class="content">
     <mat-sidenav-container>
         <mat-sidenav #sideNav  >
           <perfect-scrollbar style="width: 100%; max-height: calc( 100vh - 64px );" [config]="">

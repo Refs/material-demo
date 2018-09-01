@@ -5,14 +5,20 @@
 
 #map {
   width: 100%;
-  height: 500px;
+  height: 100%;
+  min-height: 500px;
   margin-top: 24px;
+  position: relative;
 }
 
 .mat-card {
   align-self: flex-start;
   width: 100%;
   margin: 20px;
+}
+
+.mat-card-content {
+  // min-height: 400px;
 }
 
 .mat-card-title {
@@ -22,6 +28,8 @@
 // control the minemap
 ::ng-deep .minemap-canvas{
   // width: 100% !important;
+  // position: relative !important;
+  // position: static !important;
 }
 
 

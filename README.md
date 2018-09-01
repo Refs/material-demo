@@ -593,8 +593,21 @@ export class OneComponent implements OnInit, OnDestroy {
   }
 }
 
-
 ```
 
-### angular OnReady event which we have saw in the ionic
+1. The name specification of custom module and the UI kit
+2. The test of minemap or echarts or jquery plugin
+3. collect important Ui component
+4. 9/15 to test new project in jtcn 
+5. train
+
+6. ng alain 
+  * extension echarts minemap
+  * operation
+  * Bug fix
+  * high package
+
+7. 将mock 与  api 作为一个对象的属性对象，然后将对象暴露出去； 
+
+案例 分享
 
